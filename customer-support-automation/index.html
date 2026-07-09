@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>爱发电自动化客服与工单方案脑图</title>
+    <meta name="description" content="爱发电自动化客服与工单方案脑图，覆盖产品目标、系统架构、话术白名单、工单闭环、标注训练、成本路线与上线计划。">
+    <style>
+      :root {
+        --bg: #f6f7f9;
+        --paper: #ffffff;
+        --ink: #202027;
+        --muted: #636a76;
+        --soft: #8a909d;
+        --line: #dfe3ea;
+        --line-strong: #c7ccd8;
+        --purple: #7654e8;
+        --purple-soft: #f0ecff;
+        --teal: #0f8a7a;
+        --teal-soft: #e6f5f2;
+        --blue: #2e70c9;
+        --blue-soft: #eaf2ff;
+        --amber: #aa6800;
+        --amber-soft: #fff3dc;
+        --red: #b3313b;
+        --red-soft: #fdecef;
+        --green: #16824a;
+        --green-soft: #e7f5ed;
+        --shadow: 0 18px 48px rgba(26, 31, 44, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          linear-gradient(90deg, rgba(32, 32, 39, 0.045) 1px, transparent 1px) 0 0 / 32px 32px,
+          linear-gradient(rgba(32, 32, 39, 0.045) 1px, transparent 1px) 0 0 / 32px 32px,
+          var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(1500px, 100%);
+        margin: 0 auto;
+        padding: 30px 22px 52px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+        gap: 20px;
+        align-items: start;
+        margin-bottom: 20px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1,
+      h2,
+      h3,
+      p,
+      li,
+      span,
+      td,
+      th {
+        overflow-wrap: anywhere;
+      }
+
+      h1 {
+        margin-bottom: 10px;
+        font-size: 32px;
+        line-height: 1.18;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 890px;
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.72;
+      }
+
+      .summary {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 14px;
+        box-shadow: var(--shadow);
+      }
+
+      .summary strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .summary p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+      }
+
+      .toolbar a,
+      .toolbar button {
+        min-height: 34px;
+        border: 1px solid var(--line-strong);
+        border-radius: 7px;
+        background: #fff;
+        color: var(--ink);
+        padding: 7px 11px;
+        font: inherit;
+        font-size: 13px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .toolbar a:hover,
+      .toolbar button:hover {
+        border-color: var(--purple);
+        color: var(--purple);
+      }
+
+      .mindmap {
+        position: relative;
+        min-height: 1140px;
+        margin-bottom: 18px;
+      }
+
+      .center {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+        width: min(560px, 40%);
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border: 2px solid rgba(118, 84, 232, 0.55);
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 18% 10%, rgba(16, 138, 122, 0.18), transparent 28%),
+          linear-gradient(135deg, #ffffff, #f5f2ff);
+        padding: 22px;
+        box-shadow: var(--shadow);
+        min-width: 0;
+      }
+
+      .map-connectors {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: visible;
+      }
+
+      .map-connectors path {
+        fill: none;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0.62;
+      }
+
+      .map-connectors circle {
+        fill: #fff;
+        stroke-width: 2.5;
+      }
+
+      .c-objective {
+        stroke: var(--purple);
+      }
+
+      .c-architecture {
+        stroke: var(--teal);
+      }
+
+      .c-ticket,
+      .c-metric {
+        stroke: var(--green);
+      }
+
+      .c-data {
+        stroke: #7b5a00;
+      }
+
+      .c-saas {
+        stroke: #6a5b8f;
+      }
+
+      .c-guardrail,
+      .c-rollout {
+        stroke: var(--blue);
+      }
+
+      .c-cost {
+        stroke: var(--amber);
+      }
+
+      .c-risk {
+        stroke: var(--red);
+      }
+
+      .center h2 {
+        margin-bottom: 10px;
+        font-size: 24px;
+        line-height: 1.25;
+      }
+
+      .center p {
+        margin-bottom: 12px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.72;
+      }
+
+      .core-rule {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .rule {
+        min-height: 76px;
+        border: 1px solid rgba(118, 84, 232, 0.22);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.78);
+        padding: 11px;
+        min-width: 0;
+      }
+
+      .rule strong {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--purple);
+        font-size: 13px;
+      }
+
+      .rule span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .branch {
+        position: absolute;
+        z-index: 2;
+        width: min(330px, 24%);
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 15px;
+        box-shadow: 0 12px 30px rgba(26, 31, 44, 0.06);
+      }
+
+      .branch:before {
+        content: "";
+        position: absolute;
+        inset: -1px auto auto -1px;
+        width: 5px;
+        height: calc(100% + 2px);
+        border-radius: 8px 0 0 8px;
+        background: var(--branch-color, var(--purple));
+      }
+
+      .branch h3 {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        line-height: 1.35;
+      }
+
+      .num {
+        display: inline-grid;
+        width: 24px;
+        height: 24px;
+        place-items: center;
+        border-radius: 6px;
+        background: var(--branch-bg, var(--purple-soft));
+        color: var(--branch-color, var(--purple));
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .branch ul {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .branch li {
+        position: relative;
+        padding-left: 14px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.48;
+      }
+
+      .branch li:before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        left: 0;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--branch-color, var(--purple));
+      }
+
+      .objective {
+        top: 0;
+        left: 0;
+        --branch-color: var(--purple);
+        --branch-bg: var(--purple-soft);
+      }
+
+      .architecture {
+        top: 225px;
+        left: 4.2%;
+        --branch-color: var(--teal);
+        --branch-bg: var(--teal-soft);
+      }
+
+      .guardrail {
+        top: 0;
+        right: 0;
+        --branch-color: var(--blue);
+        --branch-bg: var(--blue-soft);
+      }
+
+      .ticket {
+        top: 450px;
+        left: 0;
+        --branch-color: var(--green);
+        --branch-bg: var(--green-soft);
+      }
+
+      .data {
+        top: 675px;
+        left: 4.2%;
+        --branch-color: #7b5a00;
+        --branch-bg: #fff6c7;
+      }
+
+      .cost {
+        top: 225px;
+        right: 4.2%;
+        --branch-color: var(--amber);
+        --branch-bg: var(--amber-soft);
+      }
+
+      .saas {
+        top: 900px;
+        left: 0;
+        --branch-color: #6a5b8f;
+        --branch-bg: #f2effa;
+      }
+
+      .rollout {
+        top: 450px;
+        right: 0;
+        --branch-color: #2369a8;
+        --branch-bg: #e8f3ff;
+      }
+
+      .metric {
+        top: 675px;
+        right: 4.2%;
+        --branch-color: #0d7b57;
+        --branch-bg: #e4f6ee;
+      }
+
+      .risk {
+        top: 900px;
+        right: 0;
+        --branch-color: var(--red);
+        --branch-bg: var(--red-soft);
+      }
+
+      .full-row {
+        grid-column: 1 / -1;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(120px, 1fr));
+        gap: 8px;
+      }
+
+      .step {
+        position: relative;
+        min-height: 88px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: 12px;
+      }
+
+      .step:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -8px;
+        width: 8px;
+        height: 1px;
+        background: var(--line-strong);
+      }
+
+      .step:last-child:after {
+        display: none;
+      }
+
+      .step strong {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 13px;
+      }
+
+      .step span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .section {
+        margin-top: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        box-shadow: var(--shadow);
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: flex-start;
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.35;
+      }
+
+      .section-head p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .section-body {
+        padding: 18px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .mini {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        padding: 14px;
+      }
+
+      .mini h3 {
+        margin-bottom: 9px;
+        font-size: 15px;
+      }
+
+      .mini p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        padding: 11px 10px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #fafafa;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 24px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        line-height: 1.1;
+        white-space: nowrap;
+      }
+
+      .pill.ok {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .pill.warn {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+
+      .pill.stop {
+        background: var(--red-soft);
+        color: var(--red);
+      }
+
+      .note {
+        margin: 14px 0 0;
+        border-left: 3px solid var(--purple);
+        border-radius: 0 8px 8px 0;
+        background: var(--purple-soft);
+        padding: 12px;
+        color: #35275d;
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      @media print {
+        body {
+          background: #fff;
+        }
+
+        .toolbar {
+          display: none;
+        }
+
+        .page {
+          width: 100%;
+          padding: 12mm;
+        }
+
+        .section,
+        .branch,
+        .center,
+        .summary {
+          box-shadow: none;
+          break-inside: avoid;
+        }
+      }
+
+      @media (max-width: 1180px) {
+        .hero,
+        .grid-2,
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+
+        .mindmap {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+          min-height: 0;
+        }
+
+        .center {
+          position: relative;
+          inset: auto;
+          grid-column: 1 / -1;
+          width: auto;
+          transform: none;
+        }
+
+        .branch {
+          position: relative;
+          inset: auto;
+          width: auto;
+        }
+
+        .center {
+          order: -1;
+        }
+
+        .map-connectors {
+          display: none;
+        }
+
+        .flow {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .step:after {
+          display: none;
+        }
+      }
+
+      @media (max-width: 720px) {
+        html,
+        body {
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+
+        .page {
+          padding: 22px 12px 36px;
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+
+        h1 {
+          font-size: 25px;
+          word-break: break-all;
+        }
+
+        .center h2 {
+          font-size: 22px;
+          word-break: break-all;
+        }
+
+        .lead,
+        .summary p,
+        .center p,
+        .branch li,
+        .rule span {
+          word-break: break-all;
+        }
+
+        .mindmap,
+        .core-rule,
+        .flow {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <div>
+          <h1>爱发电自动化客服与工单方案脑图</h1>
+          <p class="lead">这是一份产品方案脑图，不是后台原型。它用一张结构化地图说明：如何在每天几百条留言、已有固定话术、预算 3 万/年以内的前提下，建立“自动识别问题、只回复审核话术、自动记录工单、人工标注回流”的客服闭环。</p>
+        </div>
+        <aside class="summary">
+          <strong>推荐结论</strong>
+          <p>自建 CPU 服务 + 云端大模型只做意图识别 + 话术白名单回复 + 自有后台工单闭环。第一阶段先影子模式，达标后开放低风险自动回复。</p>
+        </aside>
+      </header>
+
+      <div class="toolbar" aria-label="快捷定位">
+        <a href="#map">总脑图</a>
+        <a href="#pipeline">处理链路</a>
+        <a href="#route">路线对比</a>
+        <a href="#data">数据闭环</a>
+        <a href="#rollout">上线计划</a>
+        <button type="button" onclick="window.print()">打印 / 导出 PDF</button>
+      </div>
+
+      <section id="map" class="mindmap" aria-label="自动化客服方案脑图">
+        <svg class="map-connectors" viewBox="0 0 1200 1140" preserveAspectRatio="none" aria-hidden="true">
+          <path class="c-objective" d="M 455 565 C 340 565 405 80 238 80"></path>
+          <circle class="c-objective" cx="238" cy="80" r="6"></circle>
+          <path class="c-architecture" d="M 455 565 C 350 565 405 305 292 305"></path>
+          <circle class="c-architecture" cx="292" cy="305" r="6"></circle>
+          <path class="c-ticket" d="M 455 565 C 350 565 402 530 238 530"></path>
+          <circle class="c-ticket" cx="238" cy="530" r="6"></circle>
+          <path class="c-data" d="M 455 565 C 350 565 405 755 292 755"></path>
+          <circle class="c-data" cx="292" cy="755" r="6"></circle>
+          <path class="c-saas" d="M 455 565 C 340 565 405 980 238 980"></path>
+          <circle class="c-saas" cx="238" cy="980" r="6"></circle>
+
+          <path class="c-guardrail" d="M 745 565 C 860 565 795 80 962 80"></path>
+          <circle class="c-guardrail" cx="962" cy="80" r="6"></circle>
+          <path class="c-cost" d="M 745 565 C 850 565 795 305 908 305"></path>
+          <circle class="c-cost" cx="908" cy="305" r="6"></circle>
+          <path class="c-rollout" d="M 745 565 C 850 565 798 530 962 530"></path>
+          <circle class="c-rollout" cx="962" cy="530" r="6"></circle>
+          <path class="c-metric" d="M 745 565 C 850 565 795 755 908 755"></path>
+          <circle class="c-metric" cx="908" cy="755" r="6"></circle>
+          <path class="c-risk" d="M 745 565 C 860 565 795 980 962 980"></path>
+          <circle class="c-risk" cx="962" cy="980" r="6"></circle>
+        </svg>
+
+        <article class="branch objective">
+          <h3><span class="num">01</span>目标与边界</h3>
+          <ul>
+            <li>解决登录、注册、基础平台使用等高频问题。</li>
+            <li>每天几百条留言先覆盖 50-80 个高频意图。</li>
+            <li>不追求“像人聊天”，追求稳定、可控、可追溯。</li>
+            <li>预算控制在 3 万/年以内。</li>
+          </ul>
+        </article>
+
+        <article class="branch architecture">
+          <h3><span class="num">02</span>产品架构</h3>
+          <ul>
+            <li>统一消息入口：站内信、网页、邮箱等渠道统一入队。</li>
+            <li>脱敏层：手机号、邮箱、订单号、银行卡信息先脱敏。</li>
+            <li>识别层：规则、相似问召回、大模型分类组合判断。</li>
+            <li>策略层：按风险、置信度、话术状态决定去向。</li>
+          </ul>
+        </article>
+
+        <article class="center">
+          <h2>核心产品原则：模型只判断，不写回复</h2>
+          <p>大模型不能直接生成用户可见话术，只能输出结构化结果，例如 intent_id、script_id、confidence、risk_level、need_human。真正发送给用户的内容必须从已审核话术库按 script_id 读取。</p>
+          <div class="core-rule">
+            <div class="rule">
+              <strong>不越界</strong>
+              <span>回复文本只来自话术库，话术越界率目标为 0。</span>
+            </div>
+            <div class="rule">
+              <strong>可追溯</strong>
+              <span>每次回复都能查到原留言、模型判断、命中话术和策略。</span>
+            </div>
+            <div class="rule">
+              <strong>可迭代</strong>
+              <span>低置信、敏感、未解决样本进入人工标注，持续优化。</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="branch guardrail">
+          <h3><span class="num">03</span>话术白名单</h3>
+          <ul>
+            <li>每个 intent_id 绑定一个默认 script_id。</li>
+            <li>话术包含适用条件、禁用条件、风险等级和阈值。</li>
+            <li>登录注册等低风险话术可自动发送。</li>
+            <li>支付、提现、封禁、实名、投诉默认转人工。</li>
+          </ul>
+        </article>
+
+        <article class="branch ticket">
+          <h3><span class="num">04</span>工单闭环</h3>
+          <ul>
+            <li>每条留言进入后自动创建或更新工单。</li>
+            <li>状态覆盖 new、auto_replied、human_required、resolved、reopened。</li>
+            <li>用户点未解决或继续追问时自动复开。</li>
+            <li>工单既是客服队列，也是训练数据来源。</li>
+          </ul>
+        </article>
+
+        <article class="branch data">
+          <h3><span class="num">05</span>标注与训练</h3>
+          <ul>
+            <li>从历史对话抽 3000-5000 条，聚类出高频意图。</li>
+            <li>先做 1000 条黄金测试集，固定验收标准。</li>
+            <li>一名人工每天标注低置信、转人工、未解决样本。</li>
+            <li>先优化分类和阈值，不急着微调生成模型。</li>
+          </ul>
+        </article>
+
+        <article class="branch cost">
+          <h3><span class="num">06</span>成本控制</h3>
+          <ul>
+            <li>CVM、数据库、日志、备份优先复用腾讯云现有资源。</li>
+            <li>模型 API 只做分类，按当前消息量通常是千元级/年。</li>
+            <li>整体推荐预算约 1-2.2 万/年，留 5k-10k 试错空间。</li>
+            <li>不建议常驻 GPU，成本和运维都不匹配。</li>
+          </ul>
+        </article>
+
+        <article class="branch saas">
+          <h3><span class="num">07</span>SaaS 备选</h3>
+          <ul>
+            <li>腾讯企点、七鱼、Udesk、美洽可做 POC 比较。</li>
+            <li>必须支持禁止自由生成、导出工单、API 接入用户上下文。</li>
+            <li>数据地域、保留期、删除机制要写进合同。</li>
+            <li>总价低于 2 万/年才适合作为优先路线。</li>
+          </ul>
+        </article>
+
+        <article class="branch rollout">
+          <h3><span class="num">08</span>上线节奏</h3>
+          <ul>
+            <li>第 1 周：梳理意图、话术、敏感场景。</li>
+            <li>第 2-3 周：影子模式，只给客服建议。</li>
+            <li>第 4-5 周：低风险高置信问题自动回复。</li>
+            <li>第 6 周后：周报复盘、扩大覆盖范围。</li>
+          </ul>
+        </article>
+
+        <article class="branch metric">
+          <h3><span class="num">09</span>验收指标</h3>
+          <ul>
+            <li>话术越界率 0。</li>
+            <li>高置信自动回复准确率先达 95%，成熟后冲 98%。</li>
+            <li>首月自动解决率 30%-40%，三个月 50%-70%。</li>
+            <li>复开率低于 10%，基础问题人工量下降 40%+。</li>
+          </ul>
+        </article>
+
+        <article class="branch risk">
+          <h3><span class="num">10</span>风险与合规</h3>
+          <ul>
+            <li>涉及交易、实名、收益、订单、投诉的问题默认人工处理。</li>
+            <li>模型输入前做敏感信息脱敏，日志分级留存。</li>
+            <li>自动回复范围按意图逐步放开，不一次性全量上线。</li>
+            <li>所有策略调整需要有测试集回归和线上抽检。</li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="pipeline" class="section">
+        <div class="section-head">
+          <div>
+            <h2>一条留言的处理链路</h2>
+            <p>从用户留言到自动回复或转人工的完整产品链路。</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="flow">
+            <div class="step">
+              <strong>1. 留言进入</strong>
+              <span>站内信、网页、邮箱等渠道统一收敛为会话消息。</span>
+            </div>
+            <div class="step">
+              <strong>2. 脱敏</strong>
+              <span>手机号、邮箱、订单号、银行卡尾号等替换为占位符。</span>
+            </div>
+            <div class="step">
+              <strong>3. 意图识别</strong>
+              <span>规则命中、向量召回、LLM 分类共同输出候选 intent。</span>
+            </div>
+            <div class="step">
+              <strong>4. 策略闸门</strong>
+              <span>检查风险等级、置信度、话术是否启用、是否允许自动回复。</span>
+            </div>
+            <div class="step">
+              <strong>5. 话术读取</strong>
+              <span>从白名单话术库读取 script_text，模型自然语言不外发。</span>
+            </div>
+            <div class="step">
+              <strong>6. 建单记录</strong>
+              <span>写入工单状态、判断结果、命中话术、审计事件。</span>
+            </div>
+            <div class="step">
+              <strong>7. 标注回流</strong>
+              <span>低置信、敏感、未解决、复开样本进入人工标注。</span>
+            </div>
+          </div>
+          <p class="note">关键产品判断：自动客服的“发送权”不交给模型，只交给策略闸门和话术库。模型负责识别，系统负责控制，人工负责兜底和持续改进。</p>
+        </div>
+      </section>
+
+      <section id="route" class="section">
+        <div class="section-head">
+          <div>
+            <h2>技术路线对比</h2>
+            <p>按预算、上线速度、可控性和长期维护成本做取舍。</p>
+          </div>
+        </div>
+        <div class="section-body" style="overflow:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>路线</th>
+                <th>年成本估算</th>
+                <th>优点</th>
+                <th>主要风险</th>
+                <th>建议</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>自建 CPU + 云模型 API</td>
+                <td>约 1-2.2 万</td>
+                <td>成本低、可控、适合固定话术回复。</td>
+                <td>需要自己搭建工单和标注闭环。</td>
+                <td><span class="pill ok">推荐默认</span></td>
+              </tr>
+              <tr>
+                <td>纯 CPU 自研分类</td>
+                <td>约 0.5-1.5 万</td>
+                <td>数据不出自有云，合规边界更强。</td>
+                <td>冷启动效果弱，标注压力更大。</td>
+                <td><span class="pill warn">备选</span></td>
+              </tr>
+              <tr>
+                <td>GPU 服务器 + 自部署模型</td>
+                <td>通常难压进 3 万</td>
+                <td>私有化程度高，可做本地推理。</td>
+                <td>常驻成本、运维、调参都偏重。</td>
+                <td><span class="pill stop">不建议常驻</span></td>
+              </tr>
+              <tr>
+                <td>第三方客服 SaaS</td>
+                <td>需询价，可能 1.5-6 万+</td>
+                <td>上线快，多渠道、坐席、机器人、工单现成。</td>
+                <td>价格不透明，数据和话术控制依赖厂商。</td>
+                <td><span class="pill warn">只做 POC</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="data" class="section">
+        <div class="section-head">
+          <div>
+            <h2>数据闭环与话术治理</h2>
+            <p>让一个人工每天少量标注，也能持续提高覆盖率。</p>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="grid-3">
+            <article class="mini">
+              <h3>话术库字段</h3>
+              <p>intent_id、script_id、script_text、allowed_conditions、blocked_conditions、risk_level、auto_reply_threshold、ticket_category。</p>
+            </article>
+            <article class="mini">
+              <h3>标注样本来源</h3>
+              <p>低置信、敏感转人工、用户点未解决、工单复开、客服改写话术、抽检错误样本。</p>
+            </article>
+            <article class="mini">
+              <h3>每周迭代动作</h3>
+              <p>合并重复意图，补充相似问，调整阈值，禁用风险话术，扩充黄金测试集。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="rollout" class="section">
+        <div class="section-head">
+          <div>
+            <h2>上线计划与验收</h2>
+            <p>先证明安全，再扩大自动化范围。</p>
+          </div>
+        </div>
+        <div class="section-body" style="overflow:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>阶段</th>
+                <th>时间</th>
+                <th>产出</th>
+                <th>验收标准</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>0. 梳理话术与意图</td>
+                <td>1 周</td>
+                <td>意图树、话术库、敏感场景清单。</td>
+                <td>80% 高频问题有明确 script_id。</td>
+              </tr>
+              <tr>
+                <td>1. 影子模式 MVP</td>
+                <td>2 周</td>
+                <td>分类建议、自动建单、人工标注入口。</td>
+                <td>人工抽检准确率 ≥ 90%，无用户可见风险。</td>
+              </tr>
+              <tr>
+                <td>2. 低风险自动回复</td>
+                <td>2 周</td>
+                <td>登录、注册、基础使用问题自动回复。</td>
+                <td>自动回复准确率 ≥ 95%，越权回复 0。</td>
+              </tr>
+              <tr>
+                <td>3. 工单自动完成</td>
+                <td>1-2 周</td>
+                <td>用户确认、48 小时无追问完成、未解决复开。</td>
+                <td>工单状态可追溯，复开率可统计。</td>
+              </tr>
+              <tr>
+                <td>4. 稳定运营</td>
+                <td>持续</td>
+                <td>周报、错例池、标注回流、话术版本管理。</td>
+                <td>自动解决率 40%-60% 起步，逐月提升。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
