@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>创作者数据洞察看板原型</title>
+    <meta name="description" content="创作者数据洞察看板 PC 与移动端静态原型。">
+    <style>
+      :root {
+        --purple: #946ce6;
+        --text: rgba(0, 0, 0, 0.86);
+        --muted: rgba(0, 0, 0, 0.52);
+        --line: rgba(0, 0, 0, 0.08);
+        --bg: #f7f7f7;
+        --white: #fff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      }
+
+      .page {
+        width: min(1480px, 100%);
+        margin: 0 auto;
+        padding: 32px 24px 56px;
+      }
+
+      .header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+        line-height: 1.25;
+        letter-spacing: 0;
+      }
+
+      .desc {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .tag {
+        flex-shrink: 0;
+        color: var(--purple);
+        background: rgba(148, 108, 230, 0.1);
+        border: 1px solid rgba(148, 108, 230, 0.2);
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 14px;
+        line-height: 1;
+      }
+
+      .section {
+        margin-top: 24px;
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.4;
+      }
+
+      .note {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .frame {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--white);
+      }
+
+      .frame img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .mobile-wrap {
+        display: flex;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .mobile-wrap img {
+        width: min(390px, 100%);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          padding: 20px 12px 40px;
+        }
+
+        .header {
+          display: block;
+        }
+
+        h1 {
+          font-size: 22px;
+        }
+
+        .tag {
+          display: inline-flex;
+          margin-top: 14px;
+        }
+
+        .mobile-wrap {
+          padding: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="header">
+        <div>
+          <h1>创作者数据洞察看板原型</h1>
+          <p class="desc">轻量版内容与商品表现方向，数据项限定为 Google Analytics 可提供或可由 GA 事件产生的口径。</p>
+        </div>
+        <div class="tag">PC + 移动端静态原型</div>
+      </header>
+
+      <section class="section">
+        <div class="section-title">
+          <h2>PC 原型</h2>
+          <span class="note">顶部创作者信息 + 横向 Dashboard Tab + 低密度内容/商品列表</span>
+        </div>
+        <div class="frame">
+          <img src="./assets/pc.png" alt="创作者数据洞察看板 PC 原型">
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">
+          <h2>移动端原型</h2>
+          <span class="note">2x2 摘要指标 + 单列趋势 + 内容/商品分段切换</span>
+        </div>
+        <div class="frame mobile-wrap">
+          <img src="./assets/mobile.png" alt="创作者数据洞察看板移动端原型">
+        </div>
+      </section>
+
+      <p class="note section">口径说明：页面数据来自 Google Analytics，可能受浏览器拦截、统计延迟和采集配置影响；不展示单个访客身份或访问轨迹。</p>
+    </main>
+  </body>
+</html>
