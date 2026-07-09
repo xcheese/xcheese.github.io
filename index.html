@@ -1,2 +1,153 @@
-111
-https://github.com/salomonelli/best-resume-ever
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>粉丝经济平台产品原型与方案</title>
+    <meta name="description" content="粉丝经济平台产品原型与方案索引。">
+    <style>
+      :root {
+        --bg: #f5f6f8;
+        --panel: #ffffff;
+        --text: #202027;
+        --muted: #686d78;
+        --line: #dddfe7;
+        --brand: #7a52e8;
+        --teal: #108979;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      }
+
+      main {
+        width: min(1080px, 100%);
+        margin: 0 auto;
+        padding: 48px 22px;
+      }
+
+      header {
+        margin-bottom: 26px;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 30px;
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 720px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .item {
+        min-height: 210px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 22px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        color: inherit;
+        text-decoration: none;
+        box-shadow: 0 16px 38px rgba(26, 31, 44, 0.08);
+      }
+
+      .item:hover {
+        border-color: rgba(122, 82, 232, 0.55);
+      }
+
+      .item h2 {
+        margin: 0 0 10px;
+        font-size: 20px;
+        line-height: 1.35;
+      }
+
+      .item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--brand);
+        font-size: 13px;
+      }
+
+      .status {
+        color: var(--teal);
+      }
+
+      @media (max-width: 720px) {
+        main {
+          padding: 32px 14px;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>粉丝经济平台产品原型与方案</h1>
+        <p class="lead">这里放置可直接打开的静态原型和产品方案材料。每个入口都可以独立部署到 GitHub Pages，也可以作为内部评审材料使用。</p>
+      </header>
+
+      <section class="grid" aria-label="原型列表">
+        <a class="item" href="./customer-support-automation/">
+          <div>
+            <h2>自动化客服与工单方案脑图</h2>
+            <p>用一张结构化脑图说明固定话术、意图识别、风险闸门、工单闭环、人工标注、成本路线和上线节奏，不包含后台实现。</p>
+          </div>
+          <div class="meta">
+            <span>打开方案脑图</span>
+            <span class="status">新增</span>
+          </div>
+        </a>
+
+        <a class="item" href="./creator-insight/">
+          <div>
+            <h2>创作者数据洞察看板</h2>
+            <p>PC 与移动端静态原型，展示基于 Google Analytics 口径的内容与商品表现方向。</p>
+          </div>
+          <div class="meta">
+            <span>打开原型</span>
+            <span class="status">已有</span>
+          </div>
+        </a>
+      </section>
+    </main>
+  </body>
+</html>
