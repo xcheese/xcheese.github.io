@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>爱发电创作者数据分析平台最佳实践方案</title>
+    <meta name="description" content="爱发电创作者数据分析平台最佳实践方案 Markdown 分享页。">
+    <style>
+      :root {
+        --bg: #f6f7f9;
+        --paper: #ffffff;
+        --text: #1f2430;
+        --muted: #6a7280;
+        --line: #dfe3eb;
+        --brand: #7554d9;
+        --brand-soft: rgba(117, 84, 217, 0.1);
+        --code: #f2f4f8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      }
+
+      .shell {
+        width: min(1120px, 100%);
+        margin: 0 auto;
+        padding: 36px 18px 64px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .source-link {
+        color: var(--brand);
+        text-decoration: none;
+        border: 1px solid rgba(117, 84, 217, 0.32);
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 14px;
+        background: var(--paper);
+      }
+
+      article {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--paper);
+        padding: clamp(22px, 4vw, 48px);
+        box-shadow: 0 18px 44px rgba(30, 36, 50, 0.08);
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        letter-spacing: 0;
+      }
+
+      h1 {
+        margin: 0 0 24px;
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1.18;
+      }
+
+      h2 {
+        margin: 38px 0 14px;
+        padding-top: 6px;
+        border-top: 1px solid var(--line);
+        font-size: 24px;
+        line-height: 1.35;
+      }
+
+      h3 {
+        margin: 28px 0 10px;
+        font-size: 19px;
+        line-height: 1.45;
+      }
+
+      h4 {
+        margin: 22px 0 8px;
+        font-size: 16px;
+      }
+
+      p,
+      li,
+      blockquote {
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      p {
+        margin: 10px 0;
+      }
+
+      ul,
+      ol {
+        padding-left: 1.4em;
+        margin: 10px 0 16px;
+      }
+
+      blockquote {
+        margin: 14px 0 20px;
+        padding: 14px 18px;
+        border-left: 4px solid var(--brand);
+        background: var(--brand-soft);
+        color: var(--muted);
+      }
+
+      a {
+        color: var(--brand);
+      }
+
+      code {
+        border-radius: 4px;
+        background: var(--code);
+        padding: 2px 5px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+        font-size: 0.92em;
+      }
+
+      pre {
+        overflow: auto;
+        border-radius: 8px;
+        background: #151923;
+        color: #eef2ff;
+        padding: 16px;
+        line-height: 1.6;
+      }
+
+      pre code {
+        background: transparent;
+        padding: 0;
+        color: inherit;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        margin: 16px 0 22px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+
+      table {
+        width: 100%;
+        min-width: 720px;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+        line-height: 1.6;
+      }
+
+      th {
+        background: #f2f3f7;
+        font-weight: 700;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .loading,
+      .error {
+        color: var(--muted);
+      }
+
+      @media (max-width: 720px) {
+        .shell {
+          padding: 20px 10px 40px;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        article {
+          padding: 20px 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="topbar">
+        <div class="brand">AFDIAN 数据分析平台方案</div>
+        <a class="source-link" href="./source.md">查看原始 Markdown</a>
+      </div>
+      <article id="content">
+        <p class="loading">正在加载方案文档...</p>
+      </article>
+    </main>
+
+    <script>
+      const content = document.getElementById("content");
+
+      function escapeHtml(value) {
+        return value
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function inline(value) {
+        let html = escapeHtml(value);
+        html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+        html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+        return html;
+      }
+
+      function isTableSeparator(line) {
+        return /^\s*\|?[\s:-]+\|[\s|:-]+\|?\s*$/.test(line);
+      }
+
+      function splitTableRow(line) {
+        return line
+          .trim()
+          .replace(/^\|/, "")
+          .replace(/\|$/, "")
+          .split("|")
+          .map((cell) => inline(cell.trim()));
+      }
+
+      function renderTable(lines, start) {
+        const rows = [];
+        let index = start;
+        while (index < lines.length && /^\s*\|/.test(lines[index])) {
+          rows.push(splitTableRow(lines[index]));
+          index += 1;
+        }
+
+        const hasSeparator = rows.length > 1 && isTableSeparator(lines[start + 1]);
+        const head = hasSeparator ? rows[0] : null;
+        const body = hasSeparator ? rows.slice(2) : rows;
+        let html = '<div class="table-wrap"><table>';
+        if (head) {
+          html += "<thead><tr>" + head.map((cell) => `<th>${cell}</th>`).join("") + "</tr></thead>";
+        }
+        html += "<tbody>";
+        html += body
+          .map((row) => "<tr>" + row.map((cell) => `<td>${cell}</td>`).join("") + "</tr>")
+          .join("");
+        html += "</tbody></table></div>";
+        return { html, next: index };
+      }
+
+      function renderMarkdown(markdown) {
+        const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+        const out = [];
+        let i = 0;
+        let listType = null;
+
+        function closeList() {
+          if (listType) {
+            out.push(`</${listType}>`);
+            listType = null;
+          }
+        }
+
+        while (i < lines.length) {
+          const line = lines[i];
+
+          if (/^```/.test(line)) {
+            closeList();
+            const lang = line.replace(/^```/, "").trim();
+            i += 1;
+            const code = [];
+            while (i < lines.length && !/^```/.test(lines[i])) {
+              code.push(lines[i]);
+              i += 1;
+            }
+            out.push(`<pre><code data-lang="${escapeHtml(lang)}">${escapeHtml(code.join("\n"))}</code></pre>`);
+            i += 1;
+            continue;
+          }
+
+          if (!line.trim()) {
+            closeList();
+            i += 1;
+            continue;
+          }
+
+          if (/^\s*\|/.test(line) && i + 1 < lines.length && isTableSeparator(lines[i + 1])) {
+            closeList();
+            const table = renderTable(lines, i);
+            out.push(table.html);
+            i = table.next;
+            continue;
+          }
+
+          const heading = line.match(/^(#{1,4})\s+(.+)$/);
+          if (heading) {
+            closeList();
+            const level = heading[1].length;
+            out.push(`<h${level}>${inline(heading[2])}</h${level}>`);
+            i += 1;
+            continue;
+          }
+
+          if (/^>\s?/.test(line)) {
+            closeList();
+            const quote = [];
+            while (i < lines.length && /^>\s?/.test(lines[i])) {
+              quote.push(lines[i].replace(/^>\s?/, ""));
+              i += 1;
+            }
+            out.push(`<blockquote>${quote.map(inline).join("<br>")}</blockquote>`);
+            continue;
+          }
+
+          const bullet = line.match(/^\s*[-*]\s+(.+)$/);
+          if (bullet) {
+            if (listType !== "ul") {
+              closeList();
+              out.push("<ul>");
+              listType = "ul";
+            }
+            out.push(`<li>${inline(bullet[1])}</li>`);
+            i += 1;
+            continue;
+          }
+
+          const ordered = line.match(/^\s*\d+\.\s+(.+)$/);
+          if (ordered) {
+            if (listType !== "ol") {
+              closeList();
+              out.push("<ol>");
+              listType = "ol";
+            }
+            out.push(`<li>${inline(ordered[1])}</li>`);
+            i += 1;
+            continue;
+          }
+
+          closeList();
+          const paragraph = [line.trim()];
+          i += 1;
+          while (
+            i < lines.length &&
+            lines[i].trim() &&
+            !/^(#{1,4})\s+/.test(lines[i]) &&
+            !/^```/.test(lines[i]) &&
+            !/^>\s?/.test(lines[i]) &&
+            !/^\s*[-*]\s+/.test(lines[i]) &&
+            !/^\s*\d+\.\s+/.test(lines[i]) &&
+            !/^\s*\|/.test(lines[i])
+          ) {
+            paragraph.push(lines[i].trim());
+            i += 1;
+          }
+          out.push(`<p>${inline(paragraph.join(" "))}</p>`);
+        }
+
+        closeList();
+        return out.join("\n");
+      }
+
+      fetch("./source.md")
+        .then((response) => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.text();
+        })
+        .then((markdown) => {
+          content.innerHTML = renderMarkdown(markdown);
+        })
+        .catch((error) => {
+          content.innerHTML = `<p class="error">文档加载失败：${escapeHtml(error.message)}</p>`;
+        });
+    </script>
+  </body>
+</html>
