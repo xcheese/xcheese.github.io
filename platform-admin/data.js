@@ -171,4 +171,101 @@
       { id: "N-1005", target: "ClayLab", type: "店铺", author: "赵宇", time: "05-24 14:20", content: "新店首月转化偏低，建议优化首屏商品陈列和新客优惠。", pinned: false }
     ]
   };
+
+  const data = window.PlatformData;
+
+  data.nav.splice(3, 0, { id: "crowdfunding", label: "众筹", icon: "crowdfunding" });
+
+  const shopEnhancements = [
+    [18642, 28.6, 19.4, 426820, 85640, 0.2, 1, "🎨", "插画与设计"],
+    [15280, -18.4, -12.7, 318760, 102430, 3.6, 12, "🖌️", "数字绘画"],
+    [12846, 42.8, 37.2, 284130, 88060, -0.4, -2, "✨", "创意素材"],
+    [11205, 8.6, 5.2, 246800, 82610, 0.3, 2, "📐", "设计教育"],
+    [9864, 31.5, 26.8, 198420, 92910, -0.2, 0, "🔨", "手作工艺"],
+    [8740, -22.6, -17.4, 162830, 40840, 2.1, 7, "📚", "漫画与画册"],
+    [7386, 17.9, 21.3, 136200, 40220, -0.5, -1, "🎵", "音乐与音频"],
+    [4218, 54.6, 48.2, 46200, 22210, 1.4, 3, "🏺", "陶艺手作"]
+  ];
+  data.shops.forEach((shop, index) => {
+    const [favorites, revenueChange, salesChange, settled, pending, refundDelta, complaintDelta, emoji, creatorCategory] = shopEnhancements[index];
+    Object.assign(shop, { favorites, revenueChange, salesChange, settled, pending, refundDelta, complaintDelta, emoji, creatorCategory });
+  });
+  [1.2, -1.8, 2.4, 0.4, 1.6, -1.2, 0.8, 1.1].forEach((value, index) => { data.shops[index].conversionChange = value; });
+
+  const productEnhancements = [
+    [6840, 34.2, 29.8, -0.2, "🔥 爆发增长"], [5128, -16.8, -12.4, 4.8, "⚠️ 退款异常"],
+    [4762, 46.1, 38.5, -0.3, "🚀 高潜力"], [3284, 11.3, 8.4, 0.4, "稳定"],
+    [2916, 28.4, 21.7, -0.1, "📈 快速增长"], [2642, -21.5, -18.7, 1.6, "📉 流失风险"],
+    [1984, 19.2, 16.8, -0.4, "增长"], [1136, 62.8, 54.3, 2.1, "⚠️ 库存风险"]
+  ];
+  data.products.forEach((product, index) => {
+    const [favorites, revenueChange, salesChange, refundDelta, signal] = productEnhancements[index];
+    Object.assign(product, { favorites, revenueChange, salesChange, refundDelta, signal });
+  });
+  [2.1, -1.4, 3.2, 0.6, 1.3, -1.1, 0.9, 0.4].forEach((value, index) => { data.products[index].conversionChange = value; });
+
+  const userEnhancements = [
+    [96, 28.4, "低", "核心高价值"], [91, 16.2, "低", "高价值"], [82, 11.6, "低", "稳定复购"],
+    [48, -24.8, "高", "退款客诉风险"], [76, 8.3, "中", "会员潜力"], [42, -31.4, "高", "即将流失"],
+    [68, 100, "低", "新客潜力"], [55, 100, "低", "新客培育"]
+  ];
+  data.users.forEach((user, index) => {
+    const [valueScore, spendChange, churnRisk, signal] = userEnhancements[index];
+    Object.assign(user, { valueScore, spendChange, churnRisk, signal });
+  });
+  [0, 1, -1, 3, 0, 2, 0, 0].forEach((value, index) => { data.users[index].complaintChange = value; });
+
+  data.crowdfunding = [
+    { id: "C-60218", name: "独立游戏《星海邮差》开发计划", shop: "CreativeBox", category: "独立游戏", goal: 300000, raised: 428600, progress: 142.9, supporters: 3268, favorites: 8942, daysLeft: 12, conversion: 8.7, refund: 0.6, revenueChange: 68.4, status: "进行中", risk: "爆发增长", manager: "周航", emoji: "🎮" },
+    { id: "C-59830", name: "开源效率软件 2.0 众筹", shop: "PixelCraft", category: "软件开发", goal: 500000, raised: 312400, progress: 62.5, supporters: 1846, favorites: 6230, daysLeft: 18, conversion: 5.2, refund: 1.8, revenueChange: 24.6, status: "进行中", risk: "高潜力", manager: "陈晨", emoji: "💻" },
+    { id: "C-61042", name: "原创音乐专辑《夜航》实体发行", shop: "SoundWave", category: "音乐创作", goal: 180000, raised: 176820, progress: 98.2, supporters: 1420, favorites: 4186, daysLeft: 4, conversion: 7.4, refund: 0.4, revenueChange: 18.2, status: "即将成功", risk: "需冲刺", manager: "赵宇", emoji: "🎧" },
+    { id: "C-58716", name: "原创漫画《纸月亮》典藏版", shop: "PaperMoon", category: "漫画", goal: 260000, raised: 138600, progress: 53.3, supporters: 986, favorites: 5120, daysLeft: 9, conversion: 3.1, refund: 2.6, revenueChange: -18.6, status: "进行中", risk: "转化下降", manager: "李婷婷", emoji: "📖" },
+    { id: "C-61455", name: "3D 打印机械城堡图纸套装", shop: "MakerMarket", category: "3D打印图纸", goal: 80000, raised: 124500, progress: 155.6, supporters: 862, favorites: 2968, daysLeft: 21, conversion: 9.8, refund: 0.3, revenueChange: 82.1, status: "进行中", risk: "爆发增长", manager: "王磊", emoji: "🏰" },
+    { id: "C-58092", name: "模拟人生4 东方街区模组", shop: "DesignNest", category: "游戏模组", goal: 120000, raised: 86420, progress: 72.0, supporters: 1148, favorites: 7840, daysLeft: 6, conversion: 6.2, refund: 0.9, revenueChange: 9.4, status: "进行中", risk: "收藏待转化", manager: "周航", emoji: "🏙️" },
+    { id: "C-57511", name: "手编北欧毛衣图纸与视频课", shop: "ArtisanStudio", category: "毛衣图纸", goal: 90000, raised: 93280, progress: 103.6, supporters: 720, favorites: 2460, daysLeft: 2, conversion: 4.8, refund: 0.5, revenueChange: 4.2, status: "达成目标", risk: "待交付", manager: "陈晨", emoji: "🧶" },
+    { id: "C-62103", name: "Minecraft 蒸汽工坊大型模组", shop: "ClayLab", category: "Minecraft模组", goal: 200000, raised: 48600, progress: 24.3, supporters: 392, favorites: 3568, daysLeft: 14, conversion: 1.7, refund: 1.2, revenueChange: -32.4, status: "进行中", risk: "失败风险", manager: "赵宇", emoji: "⛏️" }
+  ];
+  [3.2, 1.1, 0.8, -1.6, 4.2, 0.3, -0.2, -1.4].forEach((value, index) => { data.crowdfunding[index].conversionChange = value; });
+
+  data.signals = [
+    { priority: "P0", type: "退款风险", entity: "PixelCraft", change: "退款率 7天 +4.8pp", impact: "¥102,430 待结算", action: "暂停自动结算并要求原因说明", owner: "李婷婷", route: "shops/S-09831" },
+    { priority: "P0", type: "客诉风险", entity: "PaperMoon", change: "客诉 7天 +7，预售延期", impact: "影响 986 位买家", action: "联系店铺确认统一履约方案", owner: "赵宇", route: "shops/S-09376" },
+    { priority: "P0", type: "众筹风险", entity: "Minecraft 蒸汽工坊大型模组", change: "收入 -32.4%，仅完成 24.3%", impact: "距目标差 ¥151,400", action: "检查来源流量并启动召回推广", owner: "赵宇", route: "crowdfunding/C-62103" },
+    { priority: "P1", type: "爆发增长", entity: "3D 打印机械城堡图纸套装", change: "收入 +82.1%，收藏 +46%", impact: "已超目标 55.6%", action: "推荐至发现页并检查交付容量", owner: "王磊", route: "crowdfunding/C-61455" },
+    { priority: "P1", type: "店铺机会", entity: "CreativeBox", change: "GMV +42.8%，转化 +2.1pp", impact: "预计月增收 ¥186,000", action: "升级高价值等级并复制渠道策略", owner: "周航", route: "shops/S-11209" },
+    { priority: "P1", type: "商品机会", entity: "品牌提案模板系统", change: "销量 +38.5%，收入 +46.1%", impact: "新增收入 ¥92,430", action: "增加站内曝光并推荐关联会员", owner: "陈晨", route: "products/P-91024" },
+    { priority: "P1", type: "流失风险", entity: "周蓝", change: "消费 -31.4%，21天未活跃", impact: "历史价值 ¥3,290", action: "进入高价值召回人群", owner: "周航", route: "users/U-750184" },
+    { priority: "P2", type: "转化机会", entity: "来源：小红书", change: "访问 +36%，购买转化 -1.4pp", impact: "预计损失 420 单", action: "检查落地页与人群匹配", owner: "陈晨", route: "traffic" },
+    { priority: "P2", type: "地区机会", entity: "成都", change: "注册转化 +2.8pp", impact: "新增商家 126 家", action: "加大创作者招募活动", owner: "周航", route: "traffic" },
+    { priority: "P2", type: "收藏机会", entity: "模拟人生4 东方街区模组", change: "收藏 7,840，转化仅 6.2%", impact: "潜在支持 ¥118,000", action: "向收藏用户发送截止提醒", owner: "周航", route: "crowdfunding/C-58092" }
+  ];
+
+  data.trafficSources = [
+    { name: "站内推荐", visitors: 386420, share: 30.0, change: 18.6, register: 10.2, merchant: 3.8, purchase: 5.4, signal: "高价值" },
+    { name: "自然搜索", visitors: 294680, share: 22.9, change: 8.4, register: 8.9, merchant: 2.4, purchase: 4.1, signal: "稳定" },
+    { name: "小红书", visitors: 182460, share: 14.2, change: 36.0, register: 12.6, merchant: 4.8, purchase: 2.2, signal: "流量高转化降" },
+    { name: "B站", visitors: 156820, share: 12.2, change: 21.4, register: 9.6, merchant: 5.7, purchase: 3.8, signal: "商家潜力" },
+    { name: "直接访问", visitors: 142300, share: 11.1, change: -4.8, register: 6.2, merchant: 1.8, purchase: 4.6, signal: "需唤回" },
+    { name: "外部社区", visitors: 123740, share: 9.6, change: 14.2, register: 7.8, merchant: 3.1, purchase: 3.2, signal: "增长" }
+  ];
+
+  data.regions = [
+    { name: "上海", visitors: 168420, change: 12.4, register: 9.8, merchant: 4.2, purchase: 5.1, revenue: 682400, signal: "高价值" },
+    { name: "北京", visitors: 152860, change: 8.6, register: 8.4, merchant: 5.1, purchase: 4.7, revenue: 628600, signal: "商家活跃" },
+    { name: "广东", visitors: 186240, change: 18.2, register: 10.6, merchant: 3.9, purchase: 4.2, revenue: 586200, signal: "增长" },
+    { name: "浙江", visitors: 143680, change: 24.8, register: 11.8, merchant: 4.6, purchase: 4.9, revenue: 542800, signal: "高潜力" },
+    { name: "四川", visitors: 98640, change: 32.6, register: 13.4, merchant: 6.8, purchase: 3.1, revenue: 286400, signal: "商家转化高" },
+    { name: "湖北", visitors: 82420, change: -8.4, register: 6.8, merchant: 2.1, purchase: 2.8, revenue: 162800, signal: "转化下降" }
+  ];
+
+  data.funnels = [
+    { name: "普通用户注册", steps: [["访问首页", 1286420], ["打开注册", 186420], ["提交手机号/邮箱", 126840], ["完成注册", 108324]], rate: 8.42, change: 0.76 },
+    { name: "成为店铺商家", steps: [["访问开店页", 86420], ["开始申请", 12680], ["提交资料", 8420], ["审核通过", 5684]], rate: 6.58, change: 1.12 },
+    { name: "购买下单", steps: [["查看商品/方案", 492680], ["点击购买", 86240], ["发起支付", 61274], ["支付成功", 46566]], rate: 9.45, change: -0.38 }
+  ];
+
+  const pageSources = ["站内推荐", "自然搜索", "小红书", "B站", "直接访问", "外部社区", "站内推荐", "自然搜索"];
+  const pageRegions = ["上海", "浙江", "北京", "广东", "四川", "湖北", "上海", "四川"];
+  const pageChanges = [18.6, 34.8, -12.4, 21.6, 42.2, -18.8, 16.4, 54.6];
+  data.pages.forEach((page, index) => Object.assign(page, { source: pageSources[index], region: pageRegions[index], conversionChange: pageChanges[index], favorites: Math.round(page.uv * (0.08 + index * 0.006)) }));
 })();
