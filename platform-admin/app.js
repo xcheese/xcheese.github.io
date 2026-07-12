@@ -24,6 +24,7 @@
     home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5M9 21v-7h6v7"/>',
     shop: '<path d="M4 10v10h16V10"/><path d="M3 4h18l-1 6H4L3 4Z"/><path d="M8 10v3m4-3v3m4-3v3"/>',
     membership: '<path d="m12 3 7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4Z"/><path d="m9 12 2 2 4-4"/>',
+    crowdfunding: '<path d="M14 4c2.6-1.1 4.9-1.1 6-1-.1 1.1-.1 3.4-1.2 6L14 14l-6-6 6-4Z"/><circle cx="15.5" cy="7.5" r="1.5"/><path d="m9 15-4 1 1-4m6 3-1 4-4 2 1-4"/>',
     bag: '<path d="M5 8h14l1 13H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/>',
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
     order: '<path d="M6 3h12v18H6z"/><path d="M9 8h6M9 12h6M9 16h4"/>',
@@ -54,14 +55,7 @@
   };
 
   function icon(name, className) {
-    const emojis = {
-      home: "🧭", shop: "🏪", membership: "💜", crowdfunding: "🚀", bag: "🛍️", user: "👤",
-      order: "🧾", finance: "💰", ticket: "🎧", chart: "📊", report: "📑", note: "📌", settings: "⚙️",
-      search: "🔍", calendar: "📅", bell: "🔔", refresh: "🔄", alert: "⚠️", check: "✅", download: "📥",
-      plus: "➕", filter: "🔎", clock: "⏱️", external: "↗️", menu: "☰", close: "✕", arrowLeft: "←",
-      link: "🔗", more: "•••", chevron: "›", down: "⌄"
-    };
-    return `<span class="emoji-icon${className ? ` ${className}` : ""}" aria-hidden="true">${emojis[name] || "•"}</span>`;
+    return `<svg class="icon${className ? ` ${className}` : ""}" viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.alert}</svg>`;
   }
 
   function esc(value) {
@@ -136,7 +130,7 @@
           <button class="icon-button mobile-menu" data-action="toggle-sidebar" aria-label="打开导航">${icon("menu")}</button>
           <label class="global-search">${icon("search")}<input id="global-search" type="search" placeholder="搜索店铺、订单、用户…" autocomplete="off"></label>
           <div class="top-actions">
-            <a class="control storefront-link" href="./discover.html">🌟 前台发现</a>
+            <a class="control storefront-link" href="./discover.html">${icon("external")}前台发现</a>
             <button class="control date-control" data-action="cycle-date">${dates[state.dateIndex]} ${icon("calendar")}</button>
             <button class="control role-control" data-action="cycle-role">${roles[state.roleIndex]} ${icon("down")}</button>
             <button class="icon-button notify-button" data-action="notify" aria-label="通知">${icon("bell")}<span class="dot"></span></button>
@@ -181,7 +175,7 @@
           ${D.dashboard.priorities.map((group) => `<div class="priority-column"><div class="priority-column-title"><span class="priority-level">${group.level}</span><span>${group.label}</span></div>${group.items.map((item) => `<div class="priority-row"><span class="priority-task">${icon(group.level === "P0" ? "alert" : "order")}${esc(item[0])}</span><span class="owner">${esc(item[1])}</span><span class="muted">${esc(item[2])}</span><button class="action-link" data-route="${item[3]}">去处理</button></div>`).join("")}</div>`).join("")}
         </div>
       </section>
-      <section class="panel kpi-strip">${D.dashboard.kpis.map((item) => `<div class="kpi-item"><div class="kpi-label">${esc(item.label)} ${icon("alert")}</div><div class="kpi-value">${item.value}</div><div class="kpi-foot"><span>较上期 <strong>${item.delta}</strong></span>${sparkline(item.values)}</div></div>`).join("")}</section>
+      <section class="panel kpi-strip">${D.dashboard.kpis.map((item) => `<div class="kpi-item"><div class="kpi-label">${esc(item.label)}</div><div class="kpi-value">${item.value}</div><div class="kpi-foot"><span>较上期 <strong>${item.delta}</strong></span>${sparkline(item.values)}</div></div>`).join("")}</section>
       ${signalRadar()}
       <div class="dashboard-grid">
         <section class="panel trend-panel"><div class="panel-head"><div class="panel-title">经营趋势</div><div class="segmented">${["收入", "订单", "退款", "结算"].map((metric) => `<button class="${state.trendMetric === metric ? "active" : ""}" data-trend="${metric}">${metric}</button>`).join("")}</div></div><div class="chart-wrap">${lineChart(D.dashboard.trend.map((value) => value * ({ 收入: 1, 订单: .78, 退款: .28, 结算: .9 }[state.trendMetric] || 1)), state.trendMetric)}</div></section>
@@ -195,7 +189,7 @@
 
   function signalRadar() {
     return `<section class="panel signal-radar">
-      <div class="panel-head"><div><div class="panel-title">🛰️ 智能经营雷达</div><div class="panel-meta">跨店铺、商品、众筹、用户、流量和结算自动找出突增、突降、风险与潜力</div></div><span class="value-tag">按预计影响 × 紧急度排序</span></div>
+      <div class="panel-head"><div><div class="panel-title">${icon("chart")}智能经营雷达</div><div class="panel-meta">跨店铺、商品、众筹、用户、流量和结算自动找出突增、突降、风险与潜力</div></div><span class="value-tag">按预计影响 × 紧急度排序</span></div>
       <div class="signal-summary">
         <span><strong>3</strong> 个 P0 需立即处理</span><span><strong>4</strong> 个增长机会</span><span><strong>¥3,260,420</strong> 待结算</span><span><strong>¥468,000</strong> 可挽回收入</span>
       </div>
@@ -336,7 +330,7 @@
     const data = filteredData(D.pages, columns);
     return `${pageHeading("流量与页面", "按来源、地区和关键转化目标定位增长与流失环节", `<button class="control" data-action="export" data-export="pages">${icon("download")}导出明细</button><button class="primary-button" data-action="create-report">创建分析任务</button>`)}
       ${summaryStrip([["访问人数", "1,286,420", "↑ 16.8%"], ["普通用户注册", "8.42%", "↑ 0.76pp"], ["成为店铺商家", "6.58%", "↑ 1.12pp"], ["购买下单", "9.45%", "↓ 0.38pp"]])}
-      <section class="panel traffic-alerts"><div class="panel-head"><div class="panel-title">🎯 本期最值得处理的转化信号</div><span class="panel-meta">已按影响用户数排序</span></div><div class="traffic-alert-grid">
+      <section class="panel traffic-alerts"><div class="panel-head"><div class="panel-title">${icon("alert")}本期最值得处理的转化信号</div><span class="panel-meta">已按影响用户数排序</span></div><div class="traffic-alert-grid">
         <div><strong>P0 · 购买支付</strong><span>支付成功率下降 0.38pp，预计影响 184 单</span><button class="action-link" data-action="create-report">检查支付失败来源</button></div>
         <div><strong>P1 · 小红书来源</strong><span>访问 +36%，购买转化却下降 1.4pp</span><button class="action-link" data-action="create-report">检查落地页匹配</button></div>
         <div><strong>P1 · 湖北地区</strong><span>访问 -8.4%，购买转化仅 2.8%</span><button class="action-link" data-action="create-report">创建地区召回</button></div>
@@ -344,10 +338,10 @@
       </div></section>
       <div class="funnel-grid">${D.funnels.map((funnel) => funnelPanel(funnel)).join("")}</div>
       <div class="traffic-split">
-        <section class="panel"><div class="panel-head"><div class="panel-title">🧭 来源分析</div><span class="panel-meta">比较流量规模与三类转化</span></div>${trafficDimensionTable(D.trafficSources, "source")}</section>
-        <section class="panel"><div class="panel-head"><div class="panel-title">📍 地区分析</div><span class="panel-meta">定位高价值与低转化区域</span></div>${trafficDimensionTable(D.regions, "region")}</section>
+        <section class="panel"><div class="panel-head"><div class="panel-title">${icon("link")}来源分析</div><span class="panel-meta">比较流量规模与三类转化</span></div>${trafficDimensionTable(D.trafficSources, "source")}</section>
+        <section class="panel"><div class="panel-head"><div class="panel-title">${icon("chart")}地区分析</div><span class="panel-meta">定位高价值与低转化区域</span></div>${trafficDimensionTable(D.regions, "region")}</section>
       </div>
-      <section class="panel"><div class="panel-head"><div class="panel-title">📈 访问、注册与购买趋势</div><span class="panel-meta">${dates[state.dateIndex]}</span></div><div class="chart-wrap">${lineChart(D.dashboard.trend.map((v, i) => v * (5.2 + (i % 4) * .12)), "流量")}</div></section>
+      <section class="panel"><div class="panel-head"><div class="panel-title">${icon("chart")}访问、注册与购买趋势</div><span class="panel-meta">${dates[state.dateIndex]}</span></div><div class="chart-wrap">${lineChart(D.dashboard.trend.map((v, i) => v * (5.2 + (i % 4) * .12)), "流量")}</div></section>
       <section class="panel page-performance">${toolbar("搜索页面标题、来源、地区、路径或店铺", D.pages)}${dataTable(data, columns, "traffic")}${pagination(data.length, D.pages.length)}</section>`;
   }
 
@@ -402,14 +396,14 @@
     const title = item.name || item.title || item.id;
     const subtitle = [item.id, item.shop, item.owner, item.type].filter(Boolean).join(" · ");
     const facts = detailFacts(type, item);
-    const entries = Object.entries(item).filter(([key]) => !["name", "title"].includes(key)).slice(0, 18);
+    const entries = Object.entries(item).filter(([key]) => !["name", "title", "emoji"].includes(key)).slice(0, 18);
     return `<section class="panel detail-hero"><div class="detail-top"><div class="detail-avatar">${esc(String(title).slice(0, 1))}</div><div class="detail-title"><h1>${esc(title)}</h1><p>${esc(subtitle)}</p></div><div class="detail-actions"><a class="control" href="#/${type}">${icon("arrowLeft")}返回列表</a><button class="ghost-button" data-action="add-note" data-target="${esc(title)}">${icon("note")}添加备注</button><button class="primary-button" data-action="detail-primary" data-type="${type}">${detailActionLabel(type)}</button></div></div><div class="detail-facts">${facts.map((fact) => `<div class="detail-fact"><label>${fact[0]}</label><strong>${fact[1]}</strong></div>`).join("")}</div></section>
       <div class="detail-flat-grid">
-        <section class="panel"><div class="panel-head"><div class="panel-title">📋 基本信息</div><button class="action-link" data-action="edit-detail">编辑信息</button></div><dl class="definition-list">${entries.map(([key, value]) => `<div class="definition"><dt>${fieldLabel(key)}</dt><dd>${typeof value === "number" && ["gmv", "net", "revenue", "amount", "paid", "price", "spend", "fee", "goal", "raised", "settled", "pending"].includes(key) ? money.format(value) : esc(value)}</dd></div>`).join("")}</dl></section>
-        <section class="panel"><div class="panel-head"><div class="panel-title">🧠 系统判断与建议</div><span class="panel-meta">按重要程度排序</span></div><div class="insight-list">${detailInsights(type).map((insight, i) => `<div class="insight-item"><span class="insight-index">${i + 1}</span><span><strong>${insight[0]}</strong><small>${insight[1]}</small></span><span class="value-tag">${insight[2]}</span></div>`).join("")}</div></section>
+        <section class="panel"><div class="panel-head"><div class="panel-title">${icon("report")}基本信息</div><button class="action-link" data-action="edit-detail">编辑信息</button></div><dl class="definition-list">${entries.map(([key, value]) => `<div class="definition"><dt>${fieldLabel(key)}</dt><dd>${typeof value === "number" && ["gmv", "net", "revenue", "amount", "paid", "price", "spend", "fee", "goal", "raised", "settled", "pending"].includes(key) ? money.format(value) : esc(value)}</dd></div>`).join("")}</dl></section>
+        <section class="panel"><div class="panel-head"><div class="panel-title">${icon("alert")}系统判断与建议</div><span class="panel-meta">按重要程度排序</span></div><div class="insight-list">${detailInsights(type).map((insight, i) => `<div class="insight-item"><span class="insight-index">${i + 1}</span><span><strong>${insight[0]}</strong><small>${insight[1]}</small></span><span class="value-tag">${insight[2]}</span></div>`).join("")}</div></section>
       </div>
-      <section class="panel detail-trend"><div class="panel-head"><div class="panel-title">📈 近30天经营趋势</div><span class="panel-meta">收入、销量、收藏、转化、退款与客诉变化已合并展示</span></div><div class="chart-wrap">${lineChart(D.dashboard.trend.map((v, i) => v * (.68 + (i % 6) * .04)), title)}</div></section>
-      <div class="detail-grid"><section class="panel"><div class="panel-head"><div class="panel-title">🕘 关联记录与下一步</div></div><div class="activity">${["负责人已查看异常信号并生成处理任务", "系统检测到关键指标相对上期发生变化", "关联订单、支付与结算事实已完成同步", "客户或店铺提交了补充材料", "记录进入持续观察队列"].map((text, i) => `<div class="activity-row"><strong>${text}</strong><span>2025-05-${26 - i} ${10 + i}:2${i} · ${["张运营", "系统", "王磊", "赵宇", "系统"][i]}</span></div>`).join("")}</div></section>${notesRail(title)}</div>`;
+      <section class="panel detail-trend"><div class="panel-head"><div class="panel-title">${icon("chart")}近30天经营趋势</div><span class="panel-meta">收入、销量、收藏、转化、退款与客诉变化已合并展示</span></div><div class="chart-wrap">${lineChart(D.dashboard.trend.map((v, i) => v * (.68 + (i % 6) * .04)), title)}</div></section>
+      <div class="detail-grid"><section class="panel"><div class="panel-head"><div class="panel-title">${icon("clock")}关联记录与下一步</div></div><div class="activity">${["负责人已查看异常信号并生成处理任务", "系统检测到关键指标相对上期发生变化", "关联订单、支付与结算事实已完成同步", "客户或店铺提交了补充材料", "记录进入持续观察队列"].map((text, i) => `<div class="activity-row"><strong>${text}</strong><span>2025-05-${26 - i} ${10 + i}:2${i} · ${["张运营", "系统", "王磊", "赵宇", "系统"][i]}</span></div>`).join("")}</div></section>${notesRail(title)}</div>`;
   }
 
   function detailFacts(type, item) {
